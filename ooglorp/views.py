@@ -73,7 +73,7 @@ def index(request):
                 chosen_food = food
                 print(chosen_food.name)
                 food_pickup_info = "Get your " + chosen_food.name + " at " + chosen_food.address + \
-                " before " + chosen_food.expiration
+                " before " + chosen_food.expiration + ", contact " + chosen_food.phone
                 chosen_food.delete()
     template_name = 'index.html'
     all_entries = Food.objects.all() #get all foods
@@ -86,7 +86,7 @@ def upload(request):
     #if an image is uploaded
     if(request.method == 'POST' and request.POST['name'] is not None):
         food = Food(name=request.POST['name'], amount = request.POST['amount'], \
-        expiration=request.POST['expiration'], address=request.POST['address'])
+        expiration=request.POST['expiration'], address=request.POST['address'],phone=request.POST['phone'])
         food.key = food.address + food.name + food.amount
         food.save() #save in database
         return render(request, 'upload.html',{'result':'Uploaded food!'})

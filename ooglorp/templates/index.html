@@ -46,11 +46,13 @@
 
 	<img src="{% static 'images/applepie.jpg' %}">
 	<section class="blog-area section">
+		<h3 class="title" style="text-align: center;">{{food_pickup_info}}</h3>
+		{% if not food_list and not food_pickup_info %}
+		<h3 class="title" style="text-align: center;">No food available at this time.</h3>
+		{% elif food_list %}
 		<div class="container">
 
 			<div class="row">
-				<h3 class="title" style="text-align: center;">{{food_pickup_info}}</h3>
-				{% if food_list %}
 				{% for food in food_list %}
 				<div class="col-lg-4 col-md-6">
 					<div class="card h-100">
@@ -70,13 +72,10 @@
 				{% endfor %}
 			</div><!-- row -->
 		</div><!-- container -->
-		<div class="row">
-			{% else %}
 
-							<h3 class="title"><a href="#"><b>No food available at this time.</b></a></h4>
+
 
 			{% endif %}
-		</div>
 	</section><!-- section -->
 
 
