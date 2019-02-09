@@ -95,7 +95,7 @@ def save_wasted():
         #date = datetime(year=int(s[0:4]), month=int(s[0:2]), day=int(s[6:8]))
     x = matplotlib.dates.date2num(dates)
     #print(x, y)
-    plt.plot_date(x,y)
+    plt.plot_date(x,y, 'k')
     plt.xlabel('Dates')
     plt.ylabel('Apples wasted')
     plt.title('Apples wasted across time')
@@ -112,7 +112,7 @@ def save_ordered():
         #date = s.strftime("%Y%m%d")
         #date = datetime(year=int(s[0:4]), month=int(s[0:2]), day=int(s[6:8]))
     x = matplotlib.dates.date2num(dates)
-    plt.plot_date(x, y)
+    plt.plot_date(x, y, 'k')
     plt.xlabel('Dates')
     plt.ylabel('Apples ordered')
     plt.title('Apples ordered across time')
@@ -140,9 +140,11 @@ def feed(request):
 @csrf_exempt
 def stats(request):
     template_name = 'stats.html'
+    plt.clf()
     save_wasted()
     plt.clf()
     save_ordered()
+    plt.clf()
     #if an image is uploaded
     if(request.method == 'POST' and request.POST['order'] is not None):
         order= int(request.POST['order'])

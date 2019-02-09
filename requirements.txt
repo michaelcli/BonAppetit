@@ -5,3 +5,4 @@ fbprophet
 django
 pillow
 opencv-python
+matplotlib
