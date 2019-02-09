@@ -6,3 +6,4 @@ django
 pillow
 opencv-python
 matplotlib
+seaborn

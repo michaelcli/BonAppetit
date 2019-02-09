@@ -67,9 +67,17 @@
 			</form>
 		</div>
 	</section><!-- section -->
-
-	<img src="{% static 'images/wasted.jpg' %}">
-	<img src="{% static 'images/ordered.jpg' %}">
+	<style>
+	img.two {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	height: 70%;
+	width: 50%;
+	}
+	</style>
+	<img class="two" src="{% static 'images/wasted.jpg' %}">
+	<img class="two" src="{% static 'images/ordered.jpg' %}">
 
 
 	<footer>

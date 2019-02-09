@@ -18,7 +18,8 @@ import csv
 import pandas as pd
 from ooglorp.forms import StatsForm, EntryForm
 from ooglorp.models import Food
-
+import seaborn as sns
+sns.set() #matplotlib style
 
 #function to retrain the model based on the new data
 #returns model object
@@ -95,7 +96,7 @@ def save_wasted():
         #date = datetime(year=int(s[0:4]), month=int(s[0:2]), day=int(s[6:8]))
     x = matplotlib.dates.date2num(dates)
     #print(x, y)
-    plt.plot_date(x,y, 'k')
+    plt.plot_date(x,y, 'k', color='mediumvioletred')
     plt.xlabel('Dates')
     plt.ylabel('Apples wasted')
     plt.title('Apples wasted across time')
@@ -112,7 +113,7 @@ def save_ordered():
         #date = s.strftime("%Y%m%d")
         #date = datetime(year=int(s[0:4]), month=int(s[0:2]), day=int(s[6:8]))
     x = matplotlib.dates.date2num(dates)
-    plt.plot_date(x, y, 'k')
+    plt.plot_date(x, y, 'k', color='mediumvioletred')
     plt.xlabel('Dates')
     plt.ylabel('Apples ordered')
     plt.title('Apples ordered across time')
