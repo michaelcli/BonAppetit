@@ -48,7 +48,7 @@ def find_adjusted_food_order(demand_csv, sell_csv, month_after):
     inventory = predict_date(date, inventory_model, month_after)
     waste = predict_date(date, waste_model, month_after)
     #return adjusted amount for needed date
-    return inventory - waste
+    return (inventory - waste, inventory, waste)
 
 def predict_date(date, model, period):
     #make dataframe
@@ -150,8 +150,10 @@ def stats(request):
     if(request.method == 'POST' and request.POST['order'] is not None):
         order= int(request.POST['order'])
         update_csv('ooglorp-master/monthly_tomatoes_ooglorp.csv', order)
-        result = find_adjusted_food_order('ooglorp-master/monthly_tomatoes.csv', 'ooglorp-master/monthly_tomatoes_ooglorp.csv', 1) #predict one month ahead
+        result, inventory, waste = find_adjusted_food_order('ooglorp-master/monthly_tomatoes.csv', 'ooglorp-master/monthly_tomatoes_ooglorp.csv', 1) #predict one month ahead
         result = str(round(result)) + ' apples'
-        return render(request, 'stats.html',{'result':result, 'estimation':"Estimated optimal order of apples in next month: "})
+        inventory = 'Predicted demand for next month: ' + str(round(inventory)) + ' apples'
+        waste = "Estimated predicted waste for next month (before adjustment): " + str(round(waste)) + ' apples'
+        return render(request, 'stats.html',{'result':result, 'estimation':"Estimated optimal order of apples in next month: ",'inventory':inventory,'waste':waste})
     else:
         return render(request, 'stats.html', {'result':'', 'estimation':'Input your order of apples this month and get the estimate for next month\'s optimal order: '})
