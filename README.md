@@ -10,13 +10,13 @@ Create virtual environment (only need to do once)
     
     conda update conda
     
-    conda create -n venv_name python=3.6 numpy cython pystan
+    conda create -n venv_name python=3.6
 
 To activate virtual environment (do every time before running)
     
     source activate venv_name
     
-    pip install fbprophet django pillow 
+    pip install -r requirements.txt
 
 Run server
     
