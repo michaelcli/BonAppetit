@@ -4,3 +4,4 @@ pystan
 fbprophet
 django
 pillow
+opencv-python
