@@ -12,16 +12,18 @@ import math
 import datetime
 import numpy as np
 import csv
+import pandas as pd
 from ooglorp.forms import StatsForm, EntryForm
 from ooglorp.models import Food
+
 
 #function to retrain the model based on the new data
 #returns model object
 def update_csv(csv_path, value):
-    with open(csv_path, 'ab') as csvfile:
+    with open(csv_path, 'a') as csvfile:
         spamwriter = csv.writer(csvfile)
-        date = datetime.date.today()
-        date = date.strftime('%Y-%d-%m')
+        date = datetime.date.today() - datetime.timedelta(weeks=4)
+        date = date.strftime('%m/%d/%Y')
         temp = date
         spamwriter.writerow([])
         spamwriter.writerow([temp, value])
@@ -48,7 +50,7 @@ def predict_date(date, model, period):
     #current date - last date in training + period
     period = int(((pd.to_datetime("today") - list(model.history['ds'])[-1])/np.timedelta64(1, 'M'))) + period
     #period = pd.to_datetime("today") - list(model.history['ds'])[-1] + pd.offsets.MonthOffset(period)
-    future = model.make_future_dataframe(periods=50*period)
+    future = model.make_future_dataframe(periods=90*period)
     #add to tail
     future.tail()
     #make prediction
@@ -70,7 +72,7 @@ def index(request):
             if(food.key in request.POST):
                 chosen_food = food
                 print(chosen_food.name)
-                food_pickup_info = "Get your " + chosen_food.name + "s at " + chosen_food.address + \
+                food_pickup_info = "Get your " + chosen_food.name + " at " + chosen_food.address + \
                 " before " + chosen_food.expiration
                 chosen_food.delete()
     template_name = 'index.html'
@@ -91,15 +93,20 @@ def upload(request):
     else:
         return render(request, 'upload.html', {'result':''})
 
+@csrf_exempt
+def feed(request):
+    return render(request, 'feed.html', {'feed_image':'output.jpg'})
+
 #the csrf cookie crashes any posting of content to server so disable
 @csrf_exempt
 def stats(request):
     template_name = 'stats.html'
     #if an image is uploaded
-    if(request.method == 'POST' and request.POST['estimate'] is not None):
-        estimate = int(request.POST['estimate'])
-        result = find_adjusted_food_order('ooglorp-master/monthly_tomatoes.csv', 'ooglorp-master/sell.csv', estimate)
+    if(request.method == 'POST' and request.POST['order'] is not None):
+        order= int(request.POST['order'])
+        update_csv('ooglorp-master/monthly_tomatoes_ooglorp.csv', order)
+        result = find_adjusted_food_order('ooglorp-master/monthly_tomatoes.csv', 'ooglorp-master/monthly_tomatoes_ooglorp.csv', 1) #predict one month ahead
         result = str(round(result)) + ' apples'
-        return render(request, 'stats.html',{'result':result, 'estimation':"Estimated optimal order in " + str(estimate)+ " months: "})
+        return render(request, 'stats.html',{'result':result, 'estimation':"Estimated optimal order in next month: "})
     else:
-        return render(request, 'stats.html', {'result':'', 'estimation':'Estimate your optimal order in ___ months: '})
+        return render(request, 'stats.html', {'result':'', 'estimation':'Input your order of tomatoes this month and get the estimate for next month\'s optimal order: '})

@@ -7,4 +7,5 @@ urlpatterns = [
 	path('index.html', views.index, name = 'index'),
 	path('stats.html', views.stats, name = 'stats'),
 	path('upload.html', views.upload, name = 'upload'),
+	path('feed.html', views.feed, name = 'feed'),
 ]

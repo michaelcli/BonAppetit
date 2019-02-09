@@ -6,6 +6,8 @@ import math
 import datetime
 import numpy as np
 import csv
+from yolo import *
+import time
 
 
 #function to retrain the model based on the new data
@@ -18,6 +20,7 @@ def update_csv(csv_path, value):
         temp = date
         spamwriter.writerow([])
         spamwriter.writerow([temp, value])
+
 
 
 
@@ -66,9 +69,22 @@ def predict_date(date, model, period):
 
 def main():
 
+    while True:
+        curr_time = int(time.time())
+        #every minute check ur apples
+        if(curr_time % 10 == 0):
+            count_dict = snap_and_count()
+            apple_count = find_in_count(count_dict, "person")
+            if(apple_count == None):
+                continue
+            else:
+                print("IN")
+                update_csv("./ooglorp-master/monthly_tomatoes_ooglorp.csv", apple_count)
 
-    print(find_adjusted_food_order("./monthly_tomatoes.csv", "./monthly_tomatoes_ooglorp.csv", 2))
-    update_csv("./monthly_tomatoes.csv", 69)
+
+
+    #print(find_adjusted_food_order("./monthly_tomatoes.csv", "./monthly_tomatoes_ooglorp.csv", 2))
+    #update_csv("./monthly_tomatoes.csv", 69)
     #print(list(forecast['yhat_lower'])[list(forecast['ds']).index(pd.Timestamp('2010-08-10'))]) #how to look up a certain date
 
 

@@ -1,0 +1,6 @@
+numpy
+cython
+pystan
+fbprophet
+django
+pillow

@@ -38,12 +38,13 @@
 				<li><a href="#">Home</a></li>
 				<li><a href="stats.html">Food Stats</a></li>
 				<li><a href="upload.html">Donate Food</a></li>
+				<li><a href="feed.html">Snapshot of Weekly Inventory</a></li>
 			</ul><!-- main-menu -->
 
 		</div><!-- conatiner -->
 	</header>
 
-	<img src="{% static 'images/veggies.jpg' %}">
+	<img src="{% static 'images/applepie.jpg' %}">
 	<section class="blog-area section">
 		<div class="container">
 
@@ -57,7 +58,7 @@
 
 							<div class="display-table">
 								<h3 class="title"><a href="#"><b>{{food.name}}</b></a></h4>
-									<p class="para">{{food.amount}} {{food.name}}s, they expire on {{food.expiration}}</p>
+									<p class="para">{{food.amount}} of {{food.name}}, they expire on {{food.expiration}}</p>
 							</div>
 							<ul class="post-footer">
 								<li><form method = "post"><input type="submit" name="{{food.key}}" value="Pick Up"/></form></li>
@@ -68,12 +69,14 @@
 				</div><!-- col-lg-4 col-md-6 -->
 				{% endfor %}
 			</div><!-- row -->
+		</div><!-- container -->
 		<div class="row">
 			{% else %}
-				<h3 class="title" style="text-align: center;">No food available at this time.</h3>
+
+							<h3 class="title"><a href="#"><b>No food available at this time.</b></a></h4>
+
 			{% endif %}
 		</div>
-		</div><!-- container -->
 	</section><!-- section -->
 
 

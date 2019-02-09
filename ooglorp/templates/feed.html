@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 {% load static %}
 <html lang="en">
+<meta http-equiv="refresh" content="4; URL=http://127.0.0.1:8000/feed.html">
 <head>
 	<title>How much food to order?</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,38 +37,25 @@
 
 			<ul class="main-menu visible-on-click" id="main-menu">
 				<li><a href="index.html">Home</a></li>
-				<li><a href="#">Food Stats</a></li>
+				<li><a href="stats.html">Food Stats</a></li>
 				<li><a href="upload.html">Donate Food</a></li>
-				<li><a href="feed.html">Snapshot of Weekly Inventory</a></li>
+        <li><a href="feed.html">Snapshot of Weekly Inventory</a></li>
 			</ul><!-- main-menu -->
 
 		</div><!-- conatiner -->
 	</header>
 
-	<img src="{% static 'images/applepie.jpg' %}">
-
-	<section class="blog-area section">
-		<div>
-
-			<h4 style="text-align: center;"><b>{{estimation}} {{result}}</b></h4>
-			<form method = "post" enctype = "multipart/form-data">
-				{%csrf_token%}
-				<div class="display-table">
-					<input type = "number" name="order" style="width: 20%;
-  padding: 16px 20px;
-  border: none;
-  border-radius: 4px;" />
-					<input type="submit" name="estimateSubmit" value="Upload" style="
-					border: none;
-  color: black;
-  padding: 16px 32px;
-  margin: 4px 2px;
-  cursor: pointer;"/>
-				</div>
-			</form>
-		</div>
-	</section><!-- section -->
-
+	<!--img src="{% static 'images/veggies.jpg' %}"-->
+  <style>
+img.two {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 70%;
+  width: 50%;
+}
+</style>
+  <img class="two" src="{% static 'images/output.jpg' %}" >
 
 	<footer>
 
