@@ -107,6 +107,6 @@ def stats(request):
         update_csv('ooglorp-master/monthly_tomatoes_ooglorp.csv', order)
         result = find_adjusted_food_order('ooglorp-master/monthly_tomatoes.csv', 'ooglorp-master/monthly_tomatoes_ooglorp.csv', 1) #predict one month ahead
         result = str(round(result)) + ' apples'
-        return render(request, 'stats.html',{'result':result, 'estimation':"Estimated optimal order in next month: "})
+        return render(request, 'stats.html',{'result':result, 'estimation':"Estimated optimal order of apples in next month: "})
     else:
-        return render(request, 'stats.html', {'result':'', 'estimation':'Input your order of tomatoes this month and get the estimate for next month\'s optimal order: '})
+        return render(request, 'stats.html', {'result':'', 'estimation':'Input your order of apples this month and get the estimate for next month\'s optimal order: '})
