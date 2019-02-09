@@ -1,3 +1,6 @@
+import matplotlib
+matplotlib.use("TkAgg")
+import matplotlib.pyplot as plt
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
@@ -27,6 +30,7 @@ def update_csv(csv_path, value):
         temp = date
         spamwriter.writerow([])
         spamwriter.writerow([temp, value])
+
 
 def retrain(csv_path):
     df = pd.read_csv(csv_path)
@@ -79,6 +83,41 @@ def index(request):
     all_entries = Food.objects.all() #get all foods
     return render(request, 'index.html', {'food_list':list(all_entries), 'food_pickup_info':food_pickup_info})
 
+def save_wasted():
+    df = pd.read_csv('./ooglorp-master/monthly_tomatoes_ooglorp.csv')
+    x = list(df['ds'])
+    dates = []
+    y = list(df['y'])
+    for date in x:
+        s = date.rstrip()
+        dates.append(datetime.datetime.strptime(s, "%m/%d/%Y").date())
+        #date = s.strftime("%Y%m%d")
+        #date = datetime(year=int(s[0:4]), month=int(s[0:2]), day=int(s[6:8]))
+    x = matplotlib.dates.date2num(dates)
+    #print(x, y)
+    plt.plot_date(x,y)
+    plt.xlabel('Dates')
+    plt.ylabel('Apples wasted')
+    plt.title('Apples wasted across time')
+    plt.savefig('ooglorp/static/images/wasted.jpg')
+
+def save_ordered():
+    df = pd.read_csv('./ooglorp-master/monthly_tomatoes.csv')
+    x = list(df['ds'])
+    dates = []
+    y = list(df['y'])
+    for date in x:
+        s = date.rstrip()
+        dates.append(datetime.datetime.strptime(s, "%m/%d/%Y").date())
+        #date = s.strftime("%Y%m%d")
+        #date = datetime(year=int(s[0:4]), month=int(s[0:2]), day=int(s[6:8]))
+    x = matplotlib.dates.date2num(dates)
+    plt.plot_date(x, y)
+    plt.xlabel('Dates')
+    plt.ylabel('Apples ordered')
+    plt.title('Apples ordered across time')
+    plt.savefig('ooglorp/static/images/ordered.jpg')
+
 #the csrf cookie crashes any posting of content to server so disable
 @csrf_exempt
 def upload(request):
@@ -101,6 +140,9 @@ def feed(request):
 @csrf_exempt
 def stats(request):
     template_name = 'stats.html'
+    save_wasted()
+    plt.clf()
+    save_ordered()
     #if an image is uploaded
     if(request.method == 'POST' and request.POST['order'] is not None):
         order= int(request.POST['order'])

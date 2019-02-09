@@ -1,6 +1,8 @@
+import matplotlib
+matplotlib.use("TkAgg")
+import matplotlib.pyplot as plt
 import pandas as pd
 from fbprophet import Prophet
-import matplotlib.pyplot as plt
 import string
 import math
 import datetime
@@ -8,7 +10,6 @@ import numpy as np
 import csv
 from yolo import *
 import time
-
 
 #function to retrain the model based on the new data
 #returns model object
@@ -65,21 +66,20 @@ def predict_date(date, model, period):
     return list(forecast['yhat_lower'])[list_index]
 
 
-
-
 def main():
 
     while True:
         curr_time = int(time.time())
         #every minute check ur apples
-        if(curr_time % 10 == 0):
+        if(curr_time % 5 == 0):
             count_dict = snap_and_count()
-            apple_count = find_in_count(count_dict, "person")
+            apple_count = find_in_count(count_dict, "apple")
             if(apple_count == None):
                 continue
             else:
                 print("IN")
-                update_csv("./ooglorp-master/monthly_tomatoes_ooglorp.csv", apple_count)
+                update_csv("ooglorp-master/monthly_tomatoes_ooglorp.csv", apple_count)
+
 
 
 

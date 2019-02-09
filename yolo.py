@@ -139,7 +139,7 @@ def snap_and_count():
     date = date.strftime('%m-%d-%Y')
     print("output.jpg")
     #img = cv2.resize(image,(360,480))
-    cv2.imwrite("./ooglorp/static/images/" + "output.jpg", image)
+    cv2.imwrite("./ooglorp/static/images/" + "apples.jpg", image)
     return count_dict
 
     # show the output image
